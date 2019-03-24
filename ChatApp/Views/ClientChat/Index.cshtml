@@ -1,0 +1,65 @@
+﻿
+@{
+    ViewBag.Title = "View";
+    Layout = null;
+}
+
+<!DOCTYPE html>
+<html>
+<head>
+    <meta charset="utf-8" />
+    <meta http-equiv="X-UA-Compatible" content="IE=edge">
+    <title>Client chatbox</title>
+    <meta name="viewport" content="width=device-width, initial-scale=1">
+    <link rel="stylesheet" type="text/css" href="~/Content/ClientChat/chatbox.css" />
+    <script src="~/Scripts/jquery-3.3.1.min.js"></script>
+    <link href="~/Content/bootstrap-3.2.0/dist/css/bootstrap.min.css" rel="stylesheet" id="bootstrap-css">
+    <script src="~/Content/bootstrap-3.2.0/dist/js/bootstrap.min.js"></script>
+</head>
+<body>
+    <div class="list-group" id="list-yeu-cau">
+        <span href="#" class="list-group-item active">
+            Submenu
+        </span>
+    </div>
+
+    <div class="container">
+        <div class="row">
+            <div class="col-md-5">
+                <div class="panel panel-primary fixbottomright">
+                    <div class="panel-heading" id="accordion">
+                        <span class="glyphicon glyphicon-comment"></span> Tin nhắn
+                        <div class="btn-group pull-right">
+                            <a type="button" class="btn btn-default btn-xs" data-toggle="collapse" data-parent="#accordion" href="#collapseOne" id="btn-collapse">
+                                <span class="glyphicon glyphicon-chevron-up"></span>
+                            </a>
+                        </div>
+                    </div>
+                    <div class="panel-collapse collapse" id="collapseOne">
+                        <div class="panel-body" id="chatPanel">
+                            <ul class="chat" id="chatbody"></ul>
+                        </div>
+                        <div class="panel-footer">
+                            <div class="input-group">
+                                <input id="txt_message" type="text" class="form-control input-sm" placeholder="Xin mời nhập tin nhắn..." />
+                                <input id="group-name" type="hidden" />
+                                <span class="input-group-btn">
+                                    <button class="btn btn-warning btn-sm" id="btn-send">
+                                        Gửi
+                                    </button>
+                                </span>
+                            </div>
+                        </div>
+                    </div>
+                </div>
+            </div>
+        </div>
+    </div>
+</body>
+</html>
+
+<script src="~/Scripts/jquery.signalR-2.4.0.js"></script>
+<script src="http://localhost:51585/signalr/hubs"></script>
+<script src="~/Scripts/ChatHub/clientchat.js"></script>
+
+

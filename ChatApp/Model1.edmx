@@ -1,0 +1,209 @@
+﻿<?xml version="1.0" encoding="utf-8"?>
+<edmx:Edmx Version="3.0" xmlns:edmx="http://schemas.microsoft.com/ado/2009/11/edmx">
+  <!-- EF Runtime content -->
+  <edmx:Runtime>
+    <!-- SSDL content -->
+    <edmx:StorageModels>
+    <Schema Namespace="WebChatModel.Store" Provider="System.Data.SqlClient" ProviderManifestToken="2012" Alias="Self" xmlns:store="http://schemas.microsoft.com/ado/2007/12/edm/EntityStoreSchemaGenerator" xmlns:customannotation="http://schemas.microsoft.com/ado/2013/11/edm/customannotation" xmlns="http://schemas.microsoft.com/ado/2009/11/edm/ssdl">
+        <EntityType Name="MessageLog">
+          <Key>
+            <PropertyRef Name="MessageID" />
+          </Key>
+          <Property Name="MessageID" Type="int" StoreGeneratedPattern="Identity" Nullable="false" />
+          <Property Name="YeuCauID" Type="int" />
+          <Property Name="UserID" Type="int" />
+          <Property Name="Message" Type="nvarchar(max)" />
+          <Property Name="Timestamp" Type="datetime" />
+        </EntityType>
+        <EntityType Name="Users">
+          <Key>
+            <PropertyRef Name="UserID" />
+          </Key>
+          <Property Name="UserID" Type="int" StoreGeneratedPattern="Identity" Nullable="false" />
+          <Property Name="Username" Type="nvarchar" MaxLength="30" />
+          <Property Name="Password" Type="nvarchar" MaxLength="256" />
+          <Property Name="ClientChatID" Type="nvarchar" MaxLength="256" />
+          <Property Name="IsAdmin" Type="bit" />
+          <Property Name="LastOnline" Type="datetime" />
+          <Property Name="IsOnline" Type="bit" />
+        </EntityType>
+        <EntityType Name="YeuCau">
+          <Key>
+            <PropertyRef Name="YeuCauID" />
+          </Key>
+          <Property Name="YeuCauID" Type="int" StoreGeneratedPattern="Identity" Nullable="false" />
+          <Property Name="TieuDe" Type="nvarchar" MaxLength="500" />
+        </EntityType>
+        <Association Name="FK_MessageLog_Users">
+          <End Role="Users" Type="Self.Users" Multiplicity="0..1" />
+          <End Role="MessageLog" Type="Self.MessageLog" Multiplicity="*" />
+          <ReferentialConstraint>
+            <Principal Role="Users">
+              <PropertyRef Name="UserID" />
+            </Principal>
+            <Dependent Role="MessageLog">
+              <PropertyRef Name="UserID" />
+            </Dependent>
+          </ReferentialConstraint>
+        </Association>
+        <Association Name="FK_MessageLog_YeuCau">
+          <End Role="YeuCau" Type="Self.YeuCau" Multiplicity="0..1" />
+          <End Role="MessageLog" Type="Self.MessageLog" Multiplicity="*" />
+          <ReferentialConstraint>
+            <Principal Role="YeuCau">
+              <PropertyRef Name="YeuCauID" />
+            </Principal>
+            <Dependent Role="MessageLog">
+              <PropertyRef Name="YeuCauID" />
+            </Dependent>
+          </ReferentialConstraint>
+        </Association>
+        <EntityContainer Name="WebChatModelStoreContainer">
+          <EntitySet Name="MessageLog" EntityType="Self.MessageLog" Schema="dbo" store:Type="Tables" />
+          <EntitySet Name="Users" EntityType="Self.Users" Schema="dbo" store:Type="Tables" />
+          <EntitySet Name="YeuCau" EntityType="Self.YeuCau" Schema="dbo" store:Type="Tables" />
+          <AssociationSet Name="FK_MessageLog_Users" Association="Self.FK_MessageLog_Users">
+            <End Role="Users" EntitySet="Users" />
+            <End Role="MessageLog" EntitySet="MessageLog" />
+          </AssociationSet>
+          <AssociationSet Name="FK_MessageLog_YeuCau" Association="Self.FK_MessageLog_YeuCau">
+            <End Role="YeuCau" EntitySet="YeuCau" />
+            <End Role="MessageLog" EntitySet="MessageLog" />
+          </AssociationSet>
+        </EntityContainer>
+      </Schema></edmx:StorageModels>
+    <!-- CSDL content -->
+    <edmx:ConceptualModels>
+      <Schema Namespace="WebChatModel" Alias="Self" annotation:UseStrongSpatialTypes="false" xmlns:annotation="http://schemas.microsoft.com/ado/2009/02/edm/annotation" xmlns:customannotation="http://schemas.microsoft.com/ado/2013/11/edm/customannotation" xmlns="http://schemas.microsoft.com/ado/2009/11/edm">
+        <EntityContainer Name="WebChatEntities" annotation:LazyLoadingEnabled="true">
+          <EntitySet Name="MessageLogs" EntityType="WebChatModel.MessageLog" />
+          <EntitySet Name="Users" EntityType="WebChatModel.User" />
+          <EntitySet Name="YeuCaus" EntityType="WebChatModel.YeuCau" />
+          <AssociationSet Name="FK_MessageLog_Users" Association="WebChatModel.FK_MessageLog_Users">
+            <End Role="YeuCau" EntitySet="YeuCaus" />
+            <End Role="MessageLog" EntitySet="MessageLogs" />
+          </AssociationSet>
+          <AssociationSet Name="FK_MessageLog_Users1" Association="WebChatModel.FK_MessageLog_Users1">
+            <End Role="User" EntitySet="Users" />
+            <End Role="MessageLog" EntitySet="MessageLogs" />
+          </AssociationSet>
+        </EntityContainer>
+        <EntityType Name="MessageLog">
+          <Key>
+            <PropertyRef Name="MessageID" />
+          </Key>
+          <Property Name="MessageID" Type="Int32" Nullable="false" annotation:StoreGeneratedPattern="Identity" />
+          <Property Name="YeuCauID" Type="Int32" />
+          <Property Name="UserID" Type="Int32" />
+          <Property Name="Message" Type="String" MaxLength="Max" FixedLength="false" Unicode="true" />
+          <Property Name="Timestamp" Type="DateTime" Precision="3" />
+          <NavigationProperty Name="YeuCau" Relationship="WebChatModel.FK_MessageLog_Users" FromRole="MessageLog" ToRole="YeuCau" />
+          <NavigationProperty Name="User" Relationship="WebChatModel.FK_MessageLog_Users1" FromRole="MessageLog" ToRole="User" />
+        </EntityType>
+        <EntityType Name="User">
+          <Key>
+            <PropertyRef Name="UserID" />
+          </Key>
+          <Property Name="UserID" Type="Int32" Nullable="false" annotation:StoreGeneratedPattern="Identity" />
+          <Property Name="Username" Type="String" MaxLength="30" FixedLength="false" Unicode="true" />
+          <Property Name="Password" Type="String" MaxLength="256" FixedLength="false" Unicode="true" />
+          <Property Name="ClientChatID" Type="String" MaxLength="256" FixedLength="false" Unicode="true" />
+          <Property Name="IsAdmin" Type="Boolean" />
+          <Property Name="LastOnline" Type="DateTime" Precision="3" />
+          <NavigationProperty Name="MessageLogs" Relationship="WebChatModel.FK_MessageLog_Users1" FromRole="User" ToRole="MessageLog" />
+          <Property Name="IsOnline" Type="Boolean" />
+        </EntityType>
+        <EntityType Name="YeuCau">
+          <Key>
+            <PropertyRef Name="YeuCauID" />
+          </Key>
+          <Property Name="YeuCauID" Type="Int32" Nullable="false" annotation:StoreGeneratedPattern="Identity" />
+          <Property Name="TieuDe" Type="String" MaxLength="500" FixedLength="false" Unicode="true" />
+          <NavigationProperty Name="MessageLogs" Relationship="WebChatModel.FK_MessageLog_Users" FromRole="YeuCau" ToRole="MessageLog" />
+        </EntityType>
+        <Association Name="FK_MessageLog_Users">
+          <End Type="WebChatModel.YeuCau" Role="YeuCau" Multiplicity="0..1" />
+          <End Type="WebChatModel.MessageLog" Role="MessageLog" Multiplicity="*" />
+          <ReferentialConstraint>
+            <Principal Role="YeuCau">
+              <PropertyRef Name="YeuCauID" />
+            </Principal>
+            <Dependent Role="MessageLog">
+              <PropertyRef Name="YeuCauID" />
+            </Dependent>
+          </ReferentialConstraint>
+        </Association>
+        <Association Name="FK_MessageLog_Users1">
+          <End Type="WebChatModel.User" Role="User" Multiplicity="0..1" />
+          <End Type="WebChatModel.MessageLog" Role="MessageLog" Multiplicity="*" />
+          <ReferentialConstraint>
+            <Principal Role="User">
+              <PropertyRef Name="UserID" />
+            </Principal>
+            <Dependent Role="MessageLog">
+              <PropertyRef Name="UserID" />
+            </Dependent>
+          </ReferentialConstraint>
+        </Association>
+      </Schema>
+    </edmx:ConceptualModels>
+    <!-- C-S mapping content -->
+    <edmx:Mappings>
+      <Mapping Space="C-S" xmlns="http://schemas.microsoft.com/ado/2009/11/mapping/cs">
+        <EntityContainerMapping StorageEntityContainer="WebChatModelStoreContainer" CdmEntityContainer="WebChatEntities">
+          <EntitySetMapping Name="MessageLogs">
+            <EntityTypeMapping TypeName="WebChatModel.MessageLog">
+              <MappingFragment StoreEntitySet="MessageLog">
+                <ScalarProperty Name="Timestamp" ColumnName="Timestamp" />
+                <ScalarProperty Name="Message" ColumnName="Message" />
+                <ScalarProperty Name="UserID" ColumnName="UserID" />
+                <ScalarProperty Name="YeuCauID" ColumnName="YeuCauID" />
+                <ScalarProperty Name="MessageID" ColumnName="MessageID" />
+              </MappingFragment>
+            </EntityTypeMapping>
+          </EntitySetMapping>
+          <EntitySetMapping Name="Users">
+            <EntityTypeMapping TypeName="WebChatModel.User">
+              <MappingFragment StoreEntitySet="Users">
+                <ScalarProperty Name="IsOnline" ColumnName="IsOnline" />
+                <ScalarProperty Name="LastOnline" ColumnName="LastOnline" />
+                <ScalarProperty Name="IsAdmin" ColumnName="IsAdmin" />
+                <ScalarProperty Name="ClientChatID" ColumnName="ClientChatID" />
+                <ScalarProperty Name="Password" ColumnName="Password" />
+                <ScalarProperty Name="Username" ColumnName="Username" />
+                <ScalarProperty Name="UserID" ColumnName="UserID" />
+              </MappingFragment>
+            </EntityTypeMapping>
+          </EntitySetMapping>
+          <EntitySetMapping Name="YeuCaus">
+            <EntityTypeMapping TypeName="WebChatModel.YeuCau">
+              <MappingFragment StoreEntitySet="YeuCau">
+                <ScalarProperty Name="TieuDe" ColumnName="TieuDe" />
+                <ScalarProperty Name="YeuCauID" ColumnName="YeuCauID" />
+              </MappingFragment>
+            </EntityTypeMapping>
+          </EntitySetMapping>
+        </EntityContainerMapping>
+      </Mapping>
+    </edmx:Mappings>
+  </edmx:Runtime>
+  <!-- EF Designer content (DO NOT EDIT MANUALLY BELOW HERE) -->
+  <Designer xmlns="http://schemas.microsoft.com/ado/2009/11/edmx">
+    <Connection>
+      <DesignerInfoPropertySet>
+        <DesignerProperty Name="MetadataArtifactProcessing" Value="EmbedInOutputAssembly" />
+      </DesignerInfoPropertySet>
+    </Connection>
+    <Options>
+      <DesignerInfoPropertySet>
+        <DesignerProperty Name="ValidateOnBuild" Value="true" />
+        <DesignerProperty Name="EnablePluralization" Value="true" />
+        <DesignerProperty Name="IncludeForeignKeysInModel" Value="true" />
+        <DesignerProperty Name="UseLegacyProvider" Value="false" />
+        <DesignerProperty Name="CodeGenerationStrategy" Value="None" />
+      </DesignerInfoPropertySet>
+    </Options>
+    <!-- Diagram content (shape and connector positions) -->
+    <Diagrams></Diagrams>
+  </Designer>
+</edmx:Edmx>
